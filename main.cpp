@@ -2,7 +2,7 @@
 #include <cmath>
 using namespace std;
 
-const int MIN = 10, MAX = 20, length = 50, intervalLen = 10;
+const int MIN = 10, MAX = 20, length = 50, intervalLen = 30;
 
 //print array
 void PrintArr(int Array[], int len){
@@ -65,19 +65,43 @@ void SinSequence(int Array[], int len, int intervalLen, int min, int max){
     }
 }
 
+//generates a step sequence
+void StepSequence(int Array[], int len, int intervalLen, int min, int max){
+    int intMin, intMax, intCount, stepHigh;
+    if (len % intervalLen == 0){
+        intCount = len / intervalLen - 1;
+    } else{
+        intCount = len / intervalLen + 1;
+    }
+    stepHigh = (MAX - MIN) / intCount;
+    intMin = MIN;
+    intMax = MIN + stepHigh;
+
+    srand(time(NULL));
+    for (int i = 0; i < len; i++){
+        if (i > 0 && i < len - 1 && (i + 1) % intervalLen == 0 ){
+            intMin = intMax;
+            intMax += stepHigh;
+        }
+        Array[i] = intMin + rand() % (intMax - intMin + 1);
+        //cout << Array[i] << " " << i << " " << intMin << " " << intMax << endl;
+    }
+}
+
 // const int MIN = 10, MAX = 20, length = 50, intervalLen = 10;
 
 int main(){
     int A[length];
-    AscendingSequence(A, length);
-    PrintArr(A, length); 
-    DescendingSequence(A, length);
-    PrintArr(A, length); 
-    RandomSequence(A, length);
-    PrintArr(A, length); 
-    SawSequence(A, length, intervalLen, MIN, MAX);
-    PrintArr(A, length); 
-    SinSequence(A, length, intervalLen, MIN, MAX);
-    PrintArr(A, length); 
-
+    // AscendingSequence(A, length);
+    // PrintArr(A, length); 
+    // DescendingSequence(A, length);
+    // PrintArr(A, length); 
+    // RandomSequence(A, length);
+    // PrintArr(A, length); 
+    // SawSequence(A, length, intervalLen, MIN, MAX);
+    // PrintArr(A, length); 
+    // SinSequence(A, length, intervalLen, MIN, MAX);
+    // PrintArr(A, length);
+    StepSequence(A, length, intervalLen, MIN, MAX);
+    PrintArr(A, length);
 } 
