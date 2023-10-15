@@ -61,6 +61,8 @@
     "iostream": "cpp",
     "iosfwd": "cpp",
     "fstream": "cpp",
-    "cmath": "cpp"
+    "cmath": "cpp",
+    "initializer_list": "cpp",
+    "ostream": "cpp"
   }
 }

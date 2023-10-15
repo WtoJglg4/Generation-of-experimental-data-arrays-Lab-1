@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include <cstring>
+#include <windows.h>
+#include <chrono>
 using namespace std;
 
 //CONSTANTS
@@ -9,10 +11,14 @@ const int   SEQUENCES_QUANTITY = 6,
             PART_ORDERED = 3,
             MIN_INT = -1000,
             MAX_INT = 1000,
-            LENGTH = 1000,
-            INTERVAL_LENGTH = 570000;
+            LENGTH = 3500000,
+            INTERVAL_LENGTH = 5000;
 const double    MIN_DOUBLE = -1000,
                 MAX_DOUBLE = 1000;
+
+//VARIABLES
+int ArrayInt[LENGTH];
+double ArrayDouble[LENGTH];
 
 //GENERATING INTEGER SEQUENCES
 void AscendingSequenceInt(int[], int);
@@ -32,9 +38,9 @@ void StepSequenceDouble(double[], int, int, double, double);
 
 //PRINTING SEQUENCES
 void PrintArrConsoleInt(int[], int); 
-void PrintArrFileInt(int[], int, FILE*);
+void PrintArrFileInt(int[], int, FILE*, int64_t);
 void PrintArrConsoleDouble(double[], int);
-void PrintArrFileDouble(double[], int, FILE*);
+void PrintArrFileDouble(double[], int, FILE*, int64_t);
 
 //POINTERS INTEGER FUNCTIONS
 void (*funcInt1)(int[], int) = AscendingSequenceInt;
@@ -89,20 +95,27 @@ int main(){
         return error;
     }
 
-    int ArrayInt[LENGTH];
-    double ArrayDouble[LENGTH];
-
     for (int i = 0; i < 2; i++){
         for (int j = 0; j < ORDERED; j++){
             if (i == 0){
                 FILE *file = fopen(FilesInt[j], "w");
+
+                auto begin = chrono::steady_clock::now(); 
                 IntOrdered[j](ArrayInt, LENGTH);
-                PrintArrFileInt(ArrayInt, LENGTH, file);
+                auto end = chrono::steady_clock::now();
+                auto elapsed_ms = chrono::duration_cast<chrono::microseconds>(end - begin);
+
+                PrintArrFileInt(ArrayInt, LENGTH, file, elapsed_ms.count());
                 fclose(file);
             } else{
                 FILE *file = fopen(FilesDouble[j], "w");
+
+                auto begin = chrono::steady_clock::now(); 
                 DoubleOrdered[j](ArrayDouble, LENGTH);
-                PrintArrFileDouble(ArrayDouble, LENGTH, file);
+                auto end = chrono::steady_clock::now();
+                auto elapsed_ms = chrono::duration_cast<chrono::microseconds>(end - begin);
+
+                PrintArrFileDouble(ArrayDouble, LENGTH, file, elapsed_ms.count());
                 fclose(file);
             }
         }
@@ -111,13 +124,23 @@ int main(){
         for (int j = 0; j < PART_ORDERED; j++){
             if (i == 0){
                 FILE *file = fopen(FilesInt[j + PART_ORDERED], "w");
+
+                auto begin = chrono::steady_clock::now(); 
                 IntPartOrdered[j](ArrayInt, LENGTH, INTERVAL_LENGTH, MIN_INT, MAX_INT);
-                PrintArrFileInt(ArrayInt, LENGTH, file);
+                auto end = chrono::steady_clock::now();
+                auto elapsed_ms = chrono::duration_cast<chrono::microseconds>(end - begin);
+                
+                PrintArrFileInt(ArrayInt, LENGTH, file, elapsed_ms.count());
                 fclose(file);
             } else{
                 FILE *file = fopen(FilesDouble[j + PART_ORDERED], "w");
+
+                auto begin = chrono::steady_clock::now(); 
                 DoublePartOrdered[j](ArrayDouble, LENGTH, INTERVAL_LENGTH, MIN_DOUBLE, MAX_DOUBLE);
-                PrintArrFileDouble(ArrayDouble, LENGTH, file);
+                auto end = chrono::steady_clock::now();
+                auto elapsed_ms = chrono::duration_cast<chrono::microseconds>(end - begin);
+
+                PrintArrFileDouble(ArrayDouble, LENGTH, file, elapsed_ms.count());
                 fclose(file);
             }
         }
@@ -160,6 +183,9 @@ void PrintError(int error){
 
 //print int array to console
 void PrintArrConsoleInt(int Array[], int len){
+    if (len >= 100000){
+        return;
+    }
     for (int i = 0; i < len; i++){
         char end[3];
         if (i != len - 1){
@@ -172,7 +198,12 @@ void PrintArrConsoleInt(int Array[], int len){
 }
 
 //print int array to file
-void PrintArrFileInt(int Array[], int len, FILE *file){
+void PrintArrFileInt(int Array[], int len, FILE *file, int64_t time){
+    // fprintf(file, "Время работы алгоритма по формированию последовательности: %d(мкС)\n", time);
+    fprintf(file, "%d(мкС)\n", time);
+    if (len >= 100000){
+        return;
+    }
     for (int i = 0; i < len; i++){
         fprintf(file, "%d\n", Array[i]);
     }
@@ -247,6 +278,9 @@ void StepSequenceInt(int Array[], int len, int intervalLen, int min, int max){
 
 //print double array to console
 void PrintArrConsoleDouble(double Array[], int len){
+    if (len >= 100000){
+        return;
+    }
     for (int i = 0; i < len; i++){
         char end[3];
         if (i != len - 1){
@@ -260,7 +294,12 @@ void PrintArrConsoleDouble(double Array[], int len){
 }
 
 //print double array to file
-void PrintArrFileDouble(double Array[], int len, FILE *file){
+void PrintArrFileDouble(double Array[], int len, FILE *file, int64_t time){
+    // fprintf(file, "Время работы алгоритма по формированию последовательности: %d(мкС)\n", time);
+    fprintf(file, "%d(мкС)\n", time);
+    if (len >= 100000){
+        return;
+    }
     for (int i = 0; i < len; i++){
         fprintf(file, "%.3f\n", Array[i]);
     }
