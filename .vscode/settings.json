@@ -58,6 +58,9 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.default.compilerPath": "C:\\msys64\\mingw64\\bin\\g++.exe",
   "files.associations": {
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "iosfwd": "cpp",
+    "fstream": "cpp",
+    "cmath": "cpp"
   }
 }
