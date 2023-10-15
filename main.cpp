@@ -52,7 +52,6 @@ void (*funcInt6)(int[], int, int, int, int) = StepSequenceInt;
 void(*IntOrdered[ORDERED])(int[], int) ={funcInt1, funcInt2, funcInt3};
 void(*IntPartOrdered[PART_ORDERED])(int[], int, int, int, int) ={funcInt4, funcInt5, funcInt6};
 
-
 //POINTERS DOUBLE FUNCTIONS
 void (*funcDouble1)(double[], int) = AscendingSequenceDouble;
 void (*funcDouble2)(double[], int) = DescendingSequenceDouble;
@@ -86,9 +85,8 @@ const char* FilesInt[6] = {AscendingInt, DescendingInt, RandomInt, SawInt, SinIn
 const char* FilesDouble[6] = {AscendingDouble, DescendingDouble, RandomDouble, SawDouble, SinDouble, StepDouble};
 
 
-
-
 int main(){
+    setlocale(LC_ALL, "ru");
     int error = ErrorHandler(MIN_INT, MAX_INT, MIN_DOUBLE, MAX_DOUBLE, LENGTH, INTERVAL_LENGTH);
     if (error != 0){
         PrintError(error);
