@@ -9,12 +9,12 @@ using namespace std;
 const int   SEQUENCES_QUANTITY = 6,
             ORDERED = 3,
             PART_ORDERED = 3,
-            MIN_INT = -1000,
-            MAX_INT = 1000,
-            LENGTH = 3500000,
-            INTERVAL_LENGTH = 5000;
-const double    MIN_DOUBLE = -1000,
-                MAX_DOUBLE = 1000;
+            MIN_INT = -100,
+            MAX_INT = 100,
+            LENGTH = 200,
+            INTERVAL_LENGTH = 90;
+const double    MIN_DOUBLE = -100,
+                MAX_DOUBLE = 100;
 
 //VARIABLES
 int ArrayInt[LENGTH];
@@ -148,8 +148,8 @@ int main(){
 
 //error handler
 int ErrorHandler(int minInt, int maxInt, double minDouble, double maxDouble, int length, int intervalLength){
-    if (maxInt < minInt) return 1;
-    if (maxDouble < minDouble) return 2;
+    if (maxInt <= minInt) return 1;
+    if (maxDouble <= minDouble) return 2;
     if (length < 1) return 3;
     if (length < intervalLength) return 4;
     if (intervalLength < 1) return 5;
@@ -197,8 +197,7 @@ void PrintArrConsoleInt(int Array[], int len){
 
 //print int array to file
 void PrintArrFileInt(int Array[], int len, FILE *file, int64_t time){
-    // fprintf(file, "Время работы алгоритма по формированию последовательности: %d(мкС)\n", time);
-    fprintf(file, "%d(мкС)\n", time);
+    fprintf(file, "Время работы алгоритма по формированию последовательности: %d(мкС)\n", time);
     if (len >= 100000){
         return;
     }
@@ -293,8 +292,7 @@ void PrintArrConsoleDouble(double Array[], int len){
 
 //print double array to file
 void PrintArrFileDouble(double Array[], int len, FILE *file, int64_t time){
-    // fprintf(file, "Время работы алгоритма по формированию последовательности: %d(мкС)\n", time);
-    fprintf(file, "%d(мкС)\n", time);
+    fprintf(file, "Время работы алгоритма по формированию последовательности: %d(мкС)\n", time);
     if (len >= 100000){
         return;
     }
